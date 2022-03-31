@@ -8,5 +8,5 @@ export class CreateUrlDto {
 
   @ApiProperty()
   @IsDateString()
-  expireAt: Date;
+  expireAt: string;
 }
