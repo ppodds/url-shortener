@@ -3,7 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UrlModule } from './url/url.module';
 import configuration from './config/configuration';
+import { Url } from './url/url.entity';
 
 @Module({
   imports: [
@@ -12,9 +14,11 @@ import configuration from './config/configuration';
       useFactory: (config: ConfigService) =>
         ({
           ...config.get('database'),
+          entities: [Url],
         } as TypeOrmModuleOptions),
       inject: [ConfigService],
     }),
+    UrlModule,
   ],
   controllers: [AppController],
   providers: [AppService],

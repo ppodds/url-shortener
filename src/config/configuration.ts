@@ -9,5 +9,8 @@ export default () => ({
     extra: {
       connectionLimit: 10,
     },
+    migrations: ['dist/migrations/*{.ts,.js}'],
+    migrationsTableName: 'migrations_typeorm',
+    migrationsRun: true,
   },
 });
