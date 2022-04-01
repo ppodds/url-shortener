@@ -1,73 +1,115 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# url-shortener
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is a [homework](https://drive.google.com/file/d/1AreBiHDUYXH6MI5OqWpKP-f6-W0zA8np/view) of Dcard backend intern.
 
 ## Installation
 
-```bash
-$ npm install
+### Environment Variables
+
+Create a new env file and edit environment variables.
+
+`.env`
+
+```env
+APP_URL = "http://localhost:3000"
+
+DB_TYPE = mariadb
+DB_HOST = 127.0.0.1
+DB_PORT = 3306
+DB_USER = url-shortener
+DB_PASSWORD = secret
+DB_NAME = url-shortener
 ```
 
-## Running the app
+### Install Dependencies
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm i
 ```
 
-## Test
+### Run Server
 
 ```bash
-# unit tests
-$ npm run test
+# Development
+npm run start:dev
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Production
+npm run build
+npm run start:prod
 ```
 
-## Support
+## Introduction
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Tech Stack
 
-## Stay in touch
+- Framework
+  - Nest.js (Express Backend)
+    - Progressive backend framework written in TypeScript
+- Database
+  - MySQL / MariaDB
+    - Relational database
+- Third Party Library
+  - typeorm
+    - TypeScript library for ORM
+  - mysql2
+    - TypeORM mysql / mariadb driver
+  - husky / lint-staged
+    - Pre-commit hook
+  - prettier
+    - Code formatter
+  - eslint
+    - TypeScript linter
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Routes
 
-## License
+#### POST `/api/v1/urls`
 
-Nest is [MIT licensed](LICENSE).
+##### Request Body
+
+```json
+{
+    url: string,
+    expireAt: string
+}
+```
+
+expireAt must be a string in ISO 8601 format.
+
+##### Response
+
+- 201 Created
+
+  ```json
+  id: string,
+  shortUrl: string
+  ```
+
+- 400 Bad request
+
+  ```json
+  {
+    "statusCode": 400,
+    "message": ["expireAt must be a valid ISO 8601 date string"],
+    "error": "Bad Request"
+  }
+  ```
+
+#### GET `/:id`
+
+##### Parameters
+
+- `id`: string
+  - short URL id
+
+##### Response
+
+- 302 Redirect to original URL
+- 404 original URL not found or expired
+
+  ```json
+  {
+    "statusCode": 404,
+    "message": "Url not found",
+    "error": "Not Found"
+  }
+  ```
