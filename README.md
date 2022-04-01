@@ -53,6 +53,8 @@ npm run start:prod
     - TypeScript library for ORM
   - mysql2
     - TypeORM mysql / mariadb driver
+  - helmet
+    - Protect the app from some well-known web vulnerabilities by setting HTTP headers
   - husky / lint-staged
     - Pre-commit hook
   - prettier
