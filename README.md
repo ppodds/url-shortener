@@ -66,10 +66,10 @@ npm run start:prod
 
 ##### Request Body
 
-```json
+```typescript
 {
-    url: string,
-    expireAt: string
+  url: string,
+  expireAt: string
 }
 ```
 
@@ -79,9 +79,11 @@ expireAt must be a string in ISO 8601 format.
 
 - 201 Created
 
-  ```json
-  id: string,
-  shortUrl: string
+  ```typescript
+  {
+    id: string,
+    shortUrl: string
+  }
   ```
 
 - 400 Bad request
